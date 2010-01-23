@@ -9,6 +9,22 @@
         height: 400px;
         border: 1px solid #ccc;
     }
+	#head {
+		background-color:#aaaaFF;
+		padding: 10px;
+		line-height: 1.2em;
+	}
+	#left-col {
+		position:relative;
+		float:left;
+		padding-top:5px;
+		padding-left:5px;
+		
+	}
+	#left-col {
+		position: relative;
+		float: right;
+	}
     </style>
     <script src="http://openlayers.org/api/OpenLayers.js"></script>
     <script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
@@ -65,7 +81,7 @@
           	} 
         
             function getFormattedCoord(latlng){
-	            console.log(latlng);
+	            //console.log(latlng);
 			 	latlng= latlng.transform(map.projection, map.displayProjection);
                 var lat = latlng.lat;
                 var lon = latlng.lon;
@@ -114,9 +130,15 @@
     </script>
   </head>
   <body onload="init()">
-    <h2 id="title">Get Lat Long</h2>
-    <h3>Click on the map to get lat/long position</h3>
-    <div id="map" class="map"></div>
-    <div id="coords"></div>
+	<div id="head">
+    	<h2 id="title">Find your Current Lat & Long, provided by Open Street Map</h2>
+	</div>
+	<div id="left-col">
+		  <div id="map" class="map"></div>
+	</div>
+	<div id="right-col"><h3>Click on the map to get lat/long position</h3>
+		 <div id="coords">Latitude:<br/>Longitude:</div>
+	</div>	
+   
   </body>
 </html>
