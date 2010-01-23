@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head><title>Open Street Maps Latitude, Longitude Grabber</title>
+    <style type="text/css">
+    v\:* {
+      behavior:url(#default#VML);
+    }
+    </style>
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAASoHDs9dXnr-_MlkSmkG6-hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTNchrdRS4dagbZcYJG-sTOmG5FAw" type="text/javascript"></script>  </head>
+
+<body style="font-family: Arial; margin: 0; padding: 0;">
+
+<div style="font-size: 2em; padding: .25em; background-color: #339966; color: white; font-weight: bold;">Open Street Maps Latitude, Longitude Grabber</div>
+
+<table><tr><td valign="top" width="35%" style="padding-left: 1em;">
+<br>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml">
+  <head>
+    <style type="text/css">
+    v\:* {
+      behavior:url(#default#VML);
+    }
+    </style>
+    <script src="http://maps.google.com/maps?file=api&v=1&key=ABQIAAAASoHDs9dXnr-_MlkSmkG6-hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxTNchrdRS4dagbZcYJG-sTOmG5FAw" type="text/javascript"></script>
+  </head>
+
+  <body>
+
+    <div id="map" style="width: 600px; height: 400px"></div>
+<div style="width: 600px;">
+<br>Click  on the map on a location and it will provide you with the latitude and longitude in the input boxes below. To remove a point, click it again.
+</div>
+    <script type="text/javascript">
+    //<![CDATA[
+
+
+var map = new GMap(document.getElementById("map"));
+
+map.addControl(new GScaleControl());
+
+map.addControl(new GLargeMapControl());
+
+map.addControl(new GMapTypeControl());
+
+//Custom function for fetchng tiles from OSM server
+
+CustomGetTileUrl=function(a,b){
+
+return 'http://a.tile.openstreetmap.org/'+b+'/'+a.x+'/'+a.y+'.png';
+
+}
+
+var copyright = new GCopyright(1,
+
+new GLatLngBounds(new GLatLng(18.33,72.20),
+
+new GLatLng(18.40,72.40) ),
+
+17, "");
+
+var copyrightCollection = new GCopyrightCollection('');
+
+copyrightCollection.addCopyright(copyright);
+
+var tilelayers = [new GTileLayer(copyrightCollection,1,17)];
+
+tilelayers[0].getTileUrl = CustomGetTileUrl;
+
+var osmmap = new GMapType(tilelayers, G_SATELLITE_MAP.getProjection(), "O.S.M.");
+
+map.addMapType(osmmap);
+
+map.setCenter(new GLatLng(18.33,72.20), 14, osmmap);
+
+
+
+/*
+	var map = new GMap(document.getElementById("map"));
+*/
+    map.centerAndZoom(new GPoint(-92.27722, 34.74875), 4);
+
+    var point = new GPoint(-92.27722, 34.74875);
+    var marker = new GMarker(point);
+    map.addOverlay(marker);
+
+    GEvent.addListener(map, 'click', function(overlay, point) {
+
+        if (overlay) {
+            map.removeOverlay(overlay);
+
+      } else if (point) {
+
+            map.recenterOrPanToLatLng(point);
+            var marker = new GMarker(point);
+            map.addOverlay(marker);
+           //var message = "<HTML><HEAD></HEAD><BODY><FORM><b>Lat</b>: <INPUT TYPE='TEXT' SIZE='12' ID='latbox' VALUE=''><b>Lon</b>:<INPUT TYPE='TEXT' ID='lonbox'  SIZE='12' VALUE=''></FORM><br><br><br><br></BODY></HTML>"; 
+          //  marker.openInfoWindowHtml(message);
+
+     }
+
+     });
+
+// Recenter Map and add Coords by clicking the map
+GEvent.addListener(map, 'click', function(overlay, point) {
+            document.getElementById("latbox").value=point.y;
+            document.getElementById("lonbox").value=point.x;
+});
+    //]]>
+    </script>
+<table>
+<FORM><TR><TD ALIGN="left"> Lat: </TD><TD><INPUT SIZE=13 TYPE="TEXT" ID="latbox" NAME="lat" value="" ></TD></TR>
+<TR><TD ALIGN="left">Lon: </TD><TD><INPUT SIZE=13 TYPE="TEXT" ID="lonbox" NAME="lon" value="" ></TD></TR>
+<TR><TD ALIGN="left"></TD><TD> Click map to get coordinates</TD></TR>
+
+</TABLE>
+</FORM>
+  </body>
+</html>
+
+</td>
+<td width="10%">&nbsp;</td>
+<td valign="top" width="55%" style="background-color: #EEEEEE; padding-left: 1em;">
+
+<br><br>
+<script type="text/javascript"><!--
+google_ad_client = "pub-7448019919663010";
+google_ad_width = 336;
+google_ad_height = 280;
+google_ad_format = "336x280_as";
+google_ad_type = "text";
+//2007-10-18: conversationswithmyself.com
+google_ad_channel = "6227771898";
+google_color_border = "339966";
+google_color_bg = "EEEEEE";
+google_color_link = "000000";
+google_color_text = "000000";
+google_color_url = "0066CC";
+google_ui_features = "rc:6";
+//-->
+</script>
+<script type="text/javascript"
+  src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script><br>
+<h2>About the authors</h2>
+
+Our blogs<br>
+ &bull; <a href="http://conversationswithmyself.com">Brady Davis</a><br>
+ &bull; <a href="http://jrhicks.net">Jeffrey Hicks</a><br><br>
+
+Our other GIS stuff<br>
+ &bull; <a href="http://conversationswithmyself.com/maps/aws/gmapAWS.html">Google Maps: weather cam locator</a><br>
+
+ &bull; <a href="http://conversationswithmyself.com/maps/gmapFormUpload.html">Google Maps: upload tab delimited file</a><br>
+ &bull; <a href="http://jrhicks.net/67">Worldkit: GPS Camera prototype</a> <br>
+ &bull; <a href="http://jrhicks.net/95">Keyhole: txt2kml</a> <br>
+ &bull; <a href="http://conversationswithmyself.com/googleMapDemo.html">Google Maps: Get Lat/Lon by Click</a><br><br>
+
+Our del.icio.us accounts<br>
+ &bull; <a href="http://del.icio.us/bradydavis">del.icio.us/bradydavis</a><br>
+ &bull; <a href="http://del.icio.us/jrhicks">del.icio.us/jrhicks</a><br>
+
+
+<br>
+<br>
+<br>
+<br>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+</td></tr></table>
+
+   
+<!-- Start of StatCounter Code -->
+<script type="text/javascript" language="javascript">
+var sc_project=796901; 
+var sc_partition=6; 
+var sc_security="573b1ff4"; 
+var sc_invisible=1; 
+</script>
+
+<script type="text/javascript" language="javascript" src="http://www.statcounter.com/counter/counter.js"></script><noscript><a href="http://www.statcounter.com/" target="_blank"><img  src="http://c7.statcounter.com/counter.php?sc_project=796901&amp;java=0&amp;security=573b1ff4&amp;invisible=1" alt="invisible hit counter" border="0"></a> </noscript>
+<!-- End of StatCounter Code -->
+
+  </body>
+</html>

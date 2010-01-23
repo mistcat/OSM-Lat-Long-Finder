@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" debug="true">
+  <head>
+    <title>Get Lat/Long</title>
+      <style type="text/css">
+    .map {
+        width: 800px;
+        height: 400px;
+        border: 1px solid #ccc;
+    }
+    </style>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+    <script src="http://www.openstreetmap.org/openlayers/OpenStreetMap.js"></script>
+
+    <script type="text/javascript">
+        var dms = false;
+        var map;
+       
+        function init(){
+            var map = new OpenLayers.Map('map',
+	                    { maxExtent: new OpenLayers.Bounds(-20037508.34,-20037508.34,20037508.34,20037508.34),
+	                      numZoomLevels: 19,
+	                      maxResolution: 156543.0399,
+	                      units: 'm',
+	                      projection: new OpenLayers.Projection("EPSG:900913"),
+	                      displayProjection: new OpenLayers.Projection("EPSG:4326")
+	                    });
+            map.addControl(new OpenLayers.Control.MousePosition());
+
+			/* OpenLayers Map Setup - I've commented out the additional layersl
+			only WMS is used - Brian */
+
+
+			var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
+			                         "http://labs.metacarta.com/wms/vmap0",
+			                         {layers: 'basic'} );
+
+			var lat = 18.32;
+			var lon = -72.20;
+			var zoom = 10;
+			var markers;
+			var layerMapnik = new OpenLayers.Layer.OSM.Mapnik("Mapnik");
+			var layerTah = new OpenLayers.Layer.OSM.Osmarender("Tiles@Home");
+			map.addLayers([layerMapnik,layerTah,wms]);
+			map.addControl(new OpenLayers.Control.LayerSwitcher());
+
+			var lonLat = new OpenLayers.LonLat(lon, lat).transform(map.displayProjection,  map.projection);
+			if (!map.getCenter()) map.setCenter (lonLat, zoom);
+			        
+
+           
+            markers = new OpenLayers.Layer.Markers( "Markers" );
+            map.addLayer(markers);
+            if (!map.getCenter()) map.zoomToMaxExtent();
+                   
+          	map.events.register('click', map, handleMapClick); 
+		
+            function handleMapClick(evt) { 
+                var mc = map.getLonLatFromViewPortPx(new 
+                OpenLayers.Pixel(evt.xy.x , evt.xy.y) );
+                OpenLayers.Util.getElement("coords").innerHTML = getFormattedCoord(mc);
+                addMarker(mc);
+
+          	} 
+        
+            function getFormattedCoord(latlng){
+	            console.log(latlng);
+			 	latlng= latlng.transform(map.projection, map.displayProjection);
+                var lat = latlng.lat;
+                var lon = latlng.lon;
+				/*
+				var mypoint = OpenLayers.Projection.transform = function(	latlng,
+					source,
+					dest	)	
+               */
+				if(dms){
+                    lat = getDMS(lat);
+                    lon = getDMS(lon);
+                }
+
+                return "Latitude : " + lat + "<br/>" + "Longitude : " + lon;
+            }
+            
+            function getDMS(dd){
+                 var absDD = Math.abs(dd);   
+                 var deg = Math.floor(absDD);
+                var min = Math.floor((absDD-deg)*60);
+                var sec =  (Math.round((((absDD - deg) - (min/60)) * 60 * 60) * 100) / 100 ) ;
+                if(dd < 0) deg = -deg;
+                //return {"deg":deg, "min":min, "sec":sec}; 
+                return deg + " " + min + "' " + sec + "''"; 
+            }
+			 function addMarker(latlng){
+		            markers.clearMarkers();
+		            
+				latlng= latlng.transform(map.displayProjection, map.projection);
+
+					var lat = latlng.lat;
+
+		            var lon = latlng.lon;
+		            var size = new OpenLayers.Size(40,40);
+		            //var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+		            //var icon = new OpenLayers.Icon('cursor.png',size,offset);
+
+		            var icon = new OpenLayers.Icon('/cursor.png',size); //,offset);
+
+		            markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(lon,lat),icon));
+
+					map.addLayer(markers);
+		        }
+
+        }
+    </script>
+  </head>
+  <body onload="init()">
+    <h2 id="title">Get Lat Long</h2>
+    <h3>Click on the map to get lat/long position</h3>
+    <div id="map" class="map"></div>
+    <div id="coords"></div>
+  </body>
+</html>
